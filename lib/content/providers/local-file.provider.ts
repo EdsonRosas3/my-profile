@@ -24,6 +24,25 @@ export class LocalFileProvider implements ContentProvider {
     });
   }
 
+  async getAllNotesWithContent(): Promise<Note[]> {
+    const files = fs.readdirSync(NOTES_DIR).filter((f) => f.endsWith('.md'));
+
+    return files.map((filename) => {
+      const raw = fs.readFileSync(path.join(NOTES_DIR, filename), 'utf-8');
+      const { data, content } = matter(raw);
+      const slug = filename.replace(/\.md$/, '');
+
+      return {
+        slug,
+        title: (data.title as string) ?? slug,
+        description: data.description as string | undefined,
+        tags: data.tags as string[] | undefined,
+        date: data.date as string | undefined,
+        content,
+      };
+    });
+  }
+
   async getNoteBySlug(slug: string): Promise<Note | null> {
     const filePath = path.join(NOTES_DIR, `${slug}.md`);
 

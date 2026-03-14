@@ -12,5 +12,6 @@ export interface Note extends NoteMetadata {
 
 export interface ContentProvider {
   getAllNotes(): Promise<NoteMetadata[]>;
+  getAllNotesWithContent(): Promise<Note[]>;
   getNoteBySlug(slug: string): Promise<Note | null>;
 }

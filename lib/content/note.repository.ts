@@ -7,6 +7,10 @@ export class NoteRepository {
     return this.provider.getAllNotes();
   }
 
+  findAllWithContent(): Promise<Note[]> {
+    return this.provider.getAllNotesWithContent();
+  }
+
   findBySlug(slug: string): Promise<Note | null> {
     return this.provider.getNoteBySlug(slug);
   }
